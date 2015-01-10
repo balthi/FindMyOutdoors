@@ -9,10 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.os.Build;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    private boolean locating;
+    private Locator locator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,29 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        locator = Locator.getLocator();
+
+        final Button startButton = (Button) findViewById(R.id.start_button);
+        final Button stopButton = (Button) findViewById(R.id.stop_button);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(!locating) {
+                    locating = true;
+                    locator.startLocating();
+                }
+            }
+        });
+
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(locating) {
+                    locator.stopLocating();
+                    locating = false;
+                }
+            }
+        });
     }
 
 
